@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const App = () => {
-  // State
-  const [data, setData] = useState(() => {
+  const getDataFromLocalStorage = () => {
     const savedData = localStorage.getItem("add");
     return savedData ? JSON.parse(savedData) : [];
-  });
+  };
+  // State
+  const [data, setData] = useState(getDataFromLocalStorage);
 
   const [editIndex, setEditIndex] = useState();
   const [isEditData, setIsEditData] = useState(false);
