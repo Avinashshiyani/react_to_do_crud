@@ -1,22 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const App = () => {
   // State
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem("add");
+    return savedData ? JSON.parse(savedData) : [];
+  });
+
   const [editIndex, setEditIndex] = useState();
   const [isEditData, setIsEditData] = useState(false);
   const inputObjData = useRef();
+
+  useEffect(() => {
+    localStorage.setItem("add", JSON.stringify(data));
+  }, [data]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     let inputData = inputObjData.current.value;
     inputObjData.current.value = "";
-    setData([...data, inputData]);
 
     if (isEditData) {
       const updatedData = [...data];
       updatedData[editIndex] = inputData;
-      // console.log(updatedData);
       setData(updatedData);
       setIsEditData(false);
     } else {
